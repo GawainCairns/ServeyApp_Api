@@ -1,10 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const app = express();
+
+// Enable CORS for any origin (allow all).
+app.use(cors());
+// If you want to restrict CORS to only your local dev server (localhost:5500),
+// replace the line above with:
+// app.use(cors({ origin: 'http://localhost:5500' }));
+
 app.use(bodyParser.json());
 
 // DB routes

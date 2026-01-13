@@ -7,6 +7,14 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 
+// DB routes
+const dbRouter = require('./routes/db');
+app.use('/db', dbRouter);
+
+// Auth routes
+const authRouter = require('./routes/auth');
+app.use('/auth', authRouter);
+
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {

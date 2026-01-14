@@ -2,6 +2,27 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db/utils/pool');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+// Middleware: require a valid Bearer JWT with role 'admin'
+function requireAdmin(req, res, next) {
+  const auth = req.headers.authorization || '';
+  if (!auth.startsWith('Bearer ')) return res.status(401).json({ error: 'unauthorized' });
+  const token = auth.slice(7).trim();
+  if (!process.env.JWT_SECRET) return res.status(500).json({ error: 'JWT secret not configured' });
+  let payload;
+  try {
+    payload = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return res.status(401).json({ error: 'invalid token' });
+  }
+  if (payload.role !== 'admin') return res.status(403).json({ error: 'forbidden' });
+  req.user = payload;
+  next();
+}
+
+// Apply admin requirement to all routes in this router
+router.use(requireAdmin);
 
 // POST /admin/user - create a new user (hash password like /auth/register)
 router.post('/user', async (req, res) => {

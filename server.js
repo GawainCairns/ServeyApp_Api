@@ -24,8 +24,11 @@ const authRouter = require('./routes/auth');
 app.use('/auth', authRouter);
 
 // Servey routes
-const serveyRouter = require('./routes/servey');
-app.use('/servey', serveyRouter);
+const serveyRoutes = require('./routes/servey');
+const userRoutes = require('./routes/user');
+
+app.use('/servey', serveyRoutes);
+app.use('/user', userRoutes);
 
 const pool = require('./db/utils/pool');
 

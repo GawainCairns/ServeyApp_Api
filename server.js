@@ -23,6 +23,12 @@ app.use('/db', dbRouter);
 const authRouter = require('./routes/auth');
 app.use('/auth', authRouter);
 
+// Servey routes
+const serveyRouter = require('./routes/servey');
+app.use('/servey', serveyRouter);
+
+const pool = require('./db/utils/pool');
+
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {

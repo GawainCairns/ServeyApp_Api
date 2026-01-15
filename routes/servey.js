@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const pool = require('../db/utils/pool');
+const { requireAuth, requireCreatorOrAdminCreate, requireCreatorOrAdminForServey } = require('../middleware/auth');
 
 // Create a new servey
 // POST /servey/create
-router.post('/create', async (req, res) => {
+router.post('/create', requireAuth, requireCreatorOrAdminCreate, async (req, res) => {
   const { name, discription, creator } = req.body || {};
   if (!name || !creator) return res.status(400).json({ error: 'name and creator required' });
 
@@ -62,7 +63,7 @@ router.get('/:id', async (req, res) => {
 
 // Update a servey by id
 // PUT /servey/:id
-router.put('/:id', async (req, res) => {
+router.put('/:id', requireAuth, requireCreatorOrAdminForServey, async (req, res) => {
   const { id } = req.params;
   const { name, discription, creator } = req.body || {};
   if (name === undefined && discription === undefined && creator === undefined) {

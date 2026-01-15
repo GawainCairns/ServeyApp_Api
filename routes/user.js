@@ -2,6 +2,17 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db/utils/pool');
 
+// GET /user/admin/info - return all admins' id, name and email
+router.get('/admin/info', async (req, res) => {
+  try {
+    const [rows] = await pool.execute('SELECT id, name, email FROM users WHERE role = ?', ['admin']);
+    res.json(rows);
+  } catch (err) {
+    console.error('get admins info error', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // GET /user/:id/servey - get all surveys where creator matches user id
 router.get('/:id/servey', async (req, res) => {
   try {

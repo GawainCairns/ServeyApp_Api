@@ -1,9 +1,0 @@
-USE `serveysdb`;
-
-CREATE TABLE IF NOT EXISTS `questions_1` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `question` VARCHAR(500) DEFAULT NULL,
-  `type` VARCHAR(100) NOT NULL DEFAULT 'text',
-  `answers` VARCHAR(2000) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

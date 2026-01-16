@@ -2,20 +2,31 @@ const express = require('express');
 const router = express.Router();
 
 const pool = require('../db/utils/pool');
+const { generateUnique, validateFormat } = require('../db/utils/s_code');
 const { requireAuth, requireCreatorOrAdminCreate, requireCreatorOrAdminForServey } = require('../middleware/auth');
 
 // Create a new servey
 // POST /servey/create
 router.post('/create', requireAuth, requireCreatorOrAdminCreate, async (req, res) => {
-  const { name, discription, creator } = req.body || {};
+  const { name, discription, creator, s_code } = req.body || {};
   if (!name || !creator) return res.status(400).json({ error: 'name and creator required' });
 
   try {
+    let codeToUse = s_code;
+    if (codeToUse) {
+      if (!validateFormat(codeToUse)) return res.status(400).json({ error: 'invalid s_code format' });
+      // verify uniqueness
+      const [exist] = await pool.execute('SELECT id FROM serveys WHERE s_code = ?', [codeToUse]);
+      if (exist.length) return res.status(400).json({ error: 's_code already in use' });
+    } else {
+      codeToUse = await generateUnique(pool);
+    }
+
     const [result] = await pool.execute(
-      'INSERT INTO serveys (name, discription, creator) VALUES (?, ?, ?)',
-      [name, discription || null, creator]
+      'INSERT INTO serveys (name, discription, creator, s_code) VALUES (?, ?, ?, ?)',
+      [name, discription || null, creator, codeToUse]
     );
-    return res.status(201).json({ id: result.insertId });
+    return res.status(201).json({ id: result.insertId, s_code: codeToUse });
   } catch (err) {
     console.error('create servey error', err);
     return res.status(500).json({ error: err.message });

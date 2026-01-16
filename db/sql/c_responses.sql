@@ -12,4 +12,3 @@ CREATE TABLE IF NOT EXISTS `responses` (
   CONSTRAINT `fk_responses_question` FOREIGN KEY (`question_id`) REFERENCES `questions`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_responses_servey` FOREIGN KEY (`servey_id`) REFERENCES `serveys`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-

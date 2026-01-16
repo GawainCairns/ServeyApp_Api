@@ -31,6 +31,9 @@ const adminRoutes = require('./routes/admin');
 app.use('/servey', serveyRoutes);
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
+// Response routes
+const responseRoutes = require('./routes/response');
+app.use('/response', responseRoutes);
 
 const pool = require('./db/utils/pool');
 

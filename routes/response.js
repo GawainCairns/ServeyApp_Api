@@ -63,4 +63,16 @@ router.get('/question/:id', async (req, res) => {
   }
 });
 
+// GET http://localhost:3000/response/r_id -> get last used responder_id (0 if none)
+router.get('/r_id', async (req, res) => {
+  try {
+    const [rows] = await pool.execute('SELECT responder_id FROM responses ORDER BY id DESC LIMIT 1');
+    const lastResponder = rows.length ? rows[0].responder_id : 0;
+    return res.json({ last_responder_id: lastResponder });
+  } catch (err) {
+    console.error('get last responder id error', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

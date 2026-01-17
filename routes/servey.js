@@ -247,21 +247,4 @@ router.get('/:id/answer/:aid', async (req, res) => {
   }
 });
 
-// Get a servey by s_code
-// GET http.localhost:3000/servey/code/:id
-router.get('/code/:code', async (req, res) => {
-  const { code } = req.params;
-  if (!code) return res.status(400).json({ error: 's_code required' });
-  if (!validateFormat(code)) return res.status(400).json({ error: 'invalid s_code format' });
-
-  try {
-    const [rows] = await pool.execute('SELECT * FROM serveys WHERE s_code = ?', [code]);
-    if (!rows.length) return res.status(404).json({ error: 'not found' });
-    return res.json(rows[0]);
-  } catch (err) {
-    console.error('get servey by code error', err);
-    return res.status(500).json({ error: err.message });
-  }
-});
-
 module.exports = router;

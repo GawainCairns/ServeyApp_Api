@@ -1,4 +1,4 @@
-USE `serveysdb`;
+USE `surveysdb`;
 
 CREATE TABLE `users` (
     `id` int NOT NULL AUTO_INCREMENT,

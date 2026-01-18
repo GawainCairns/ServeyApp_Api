@@ -1,6 +1,6 @@
-USE `serveysdb`;
+USE `surveysdb`;
 
-CREATE TABLE `serveys` (
+CREATE TABLE `surveys` (
     `id` int NOT NULL AUTO_INCREMENT,
     `name` varchar(255) DEFAULT NULL,
     `discription` varchar(2000) DEFAULT NULL,

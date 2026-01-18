@@ -3,21 +3,21 @@ const router = express.Router();
 
 const pool = require('../db/utils/pool');
 
-// POST http://localhost:3000/response/:id  -> create a response for servey :id
+// POST http://localhost:3000/response/:id  -> create a response for survey :id
 router.post('/:id', async (req, res) => {
-  const { id } = req.params; // servey id
+  const { id } = req.params; // survey id
   const { question_id, answer, responder_id } = req.body || {};
   if (!question_id || answer === undefined || !responder_id) {
     return res.status(400).json({ error: 'question_id, answer and responder_id required' });
   }
 
   try {
-    // verify question belongs to servey
-    const [qrows] = await pool.execute('SELECT id FROM questions WHERE id = ? AND servey_id = ?', [question_id, id]);
-    if (!qrows.length) return res.status(400).json({ error: 'question not found for this servey' });
+    // verify question belongs to survey
+    const [qrows] = await pool.execute('SELECT id FROM questions WHERE id = ? AND survey_id = ?', [question_id, id]);
+    if (!qrows.length) return res.status(400).json({ error: 'question not found for this survey' });
 
     const [result] = await pool.execute(
-      'INSERT INTO responses (servey_id, question_id, answer, responder_id) VALUES (?, ?, ?, ?)',
+      'INSERT INTO responses (survey_id, question_id, answer, responder_id) VALUES (?, ?, ?, ?)',
       [id, question_id, answer, responder_id]
     );
     return res.status(201).json({ id: result.insertId });
@@ -27,26 +27,26 @@ router.post('/:id', async (req, res) => {
   }
 });
 
-// GET http://localhost:3000/response/servey/:id -> get all responses for a servey
-router.get('/servey/:id', async (req, res) => {
+// GET http://localhost:3000/response/survey/:id -> get all responses for a survey
+router.get('/survey/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [rows] = await pool.execute('SELECT * FROM responses WHERE servey_id = ?', [id]);
+    const [rows] = await pool.execute('SELECT * FROM responses WHERE survey_id = ?', [id]);
     return res.json(rows);
   } catch (err) {
-    console.error('list responses by servey error', err);
+    console.error('list responses by survey error', err);
     return res.status(500).json({ error: err.message });
   }
 });
 
-// GET http://localhost:3000/response/servey/:serveyId/:responderId -> get responses by servey and responder
-router.get('/servey/:serveyId/:responderId', async (req, res) => {
-  const { serveyId, responderId } = req.params;
+// GET http://localhost:3000/response/survey/:surveyId/:responderId -> get responses by survey and responder
+router.get('/survey/:surveyId/:responderId', async (req, res) => {
+  const { surveyId, responderId } = req.params;
   try {
-    const [rows] = await pool.execute('SELECT * FROM responses WHERE servey_id = ? AND responder_id = ?', [serveyId, responderId]);
+    const [rows] = await pool.execute('SELECT * FROM responses WHERE survey_id = ? AND responder_id = ?', [surveyId, responderId]);
     return res.json(rows);
   } catch (err) {
-    console.error('list responses by servey+responder error', err);
+    console.error('list responses by survey+responder error', err);
     return res.status(500).json({ error: err.message });
   }
 });

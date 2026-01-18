@@ -1,6 +1,6 @@
-# ServeyApp API
+# SurveyApp API
 
-Minimal Express backend for ServeyApp.
+Minimal Express backend for SurveyApp.
 
 Quick start
 

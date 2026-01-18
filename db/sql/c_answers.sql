@@ -1,4 +1,4 @@
-USE `serveysdb`;
+USE `surveysdb`;
 
 CREATE TABLE IF NOT EXISTS `answers` (
   `id` INT NOT NULL AUTO_INCREMENT,

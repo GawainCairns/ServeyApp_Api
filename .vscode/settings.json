@@ -11,7 +11,7 @@
             "port": 3306,
             "driver": "MySQL",
             "name": "con",
-            "database": "serveysdb",
+            "database": "surveysdb",
             "username": "root",
             "password": "password"
         }

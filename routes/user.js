@@ -13,14 +13,14 @@ router.get('/admin/info', async (req, res) => {
   }
 });
 
-// GET /user/:id/servey - get all surveys where creator matches user id
-router.get('/:id/servey', async (req, res) => {
+// GET /user/:id/survey - get all surveys where creator matches user id
+router.get('/:id/survey', async (req, res) => {
   try {
     const userId = req.params.id;
-    const [rows] = await pool.execute('SELECT * FROM serveys WHERE creator = ?', [userId]);
+    const [rows] = await pool.execute('SELECT * FROM surveys WHERE creator = ?', [userId]);
     res.json(rows);
   } catch (err) {
-    console.error('get user serveys error', err);
+    console.error('get user surveys error', err);
     res.status(500).json({ error: err.message });
   }
 });

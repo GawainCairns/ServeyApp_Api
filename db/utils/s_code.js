@@ -23,7 +23,7 @@ async function generateUnique(pool, attempts = 10000) {
   for (let i = 0; i < attempts; i++) {
     const code = generateCode();
     try {
-      const [rows] = await pool.execute('SELECT id FROM serveys WHERE s_code = ?', [code]);
+      const [rows] = await pool.execute('SELECT id FROM surveys WHERE s_code = ?', [code]);
       if (!rows.length) return code;
     } catch (err) {
       // on DB error, continue attempts until exhausted

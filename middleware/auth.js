@@ -28,12 +28,12 @@ async function requireCreatorOrAdminCreate(req, res, next) {
   return res.status(403).json({ error: 'forbidden' });
 }
 
-async function requireCreatorOrAdminForServey(req, res, next) {
+async function requireCreatorOrAdminForSurvey(req, res, next) {
   const { id } = req.params || {};
   if (!id) return res.status(400).json({ error: 'id required' });
 
   try {
-    const [rows] = await pool.execute('SELECT creator FROM serveys WHERE id = ?', [id]);
+    const [rows] = await pool.execute('SELECT creator FROM surveys WHERE id = ?', [id]);
     if (!rows.length) return res.status(404).json({ error: 'not found' });
     const existingCreator = rows[0].creator;
 
@@ -62,5 +62,5 @@ async function requireCreatorOrAdminForServey(req, res, next) {
 module.exports = {
   requireAuth,
   requireCreatorOrAdminCreate,
-  requireCreatorOrAdminForServey,
+  requireCreatorOrAdminForSurvey,
 };

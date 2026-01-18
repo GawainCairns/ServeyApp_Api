@@ -1,5 +1,5 @@
 {
-  "name": "serveyapp_api",
+  "name": "surveyapp_api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,16 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GawainCairns/ServeyApp_Api.git"
+    "url": "git+https://github.com/GawainCairns/SurveyApp_Api.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/GawainCairns/ServeyApp_Api/issues"
+    "url": "https://github.com/GawainCairns/SurveyApp_Api/issues"
   },
-  "homepage": "https://github.com/GawainCairns/ServeyApp_Api#readme",
+  "homepage": "https://github.com/GawainCairns/SurveyApp_Api#readme",
   "dependencies": {
     "body-parser": "^2.2.2",
     "dotenv": "^17.2.3",

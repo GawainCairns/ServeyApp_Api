@@ -99,6 +99,39 @@ router.put('/:id', requireAuth, requireCreatorOrAdminForSurvey, async (req, res)
     return res.status(500).json({ error: err.message });
   }
 });
+// DELETE /survey/:id
+router.delete('/:id', requireAuth, requireCreatorOrAdminForSurvey, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const conn = await pool.getConnection();
+    try {
+      await conn.beginTransaction();
+      // remove responses tied to this survey
+      await conn.execute('DELETE FROM responses WHERE survey_id = ?', [id]);
+      // remove answers that belong to questions of this survey
+      await conn.execute('DELETE a FROM answers a JOIN questions q ON a.question_id = q.id WHERE q.survey_id = ?', [id]);
+      // remove questions for this survey
+      await conn.execute('DELETE FROM questions WHERE survey_id = ?', [id]);
+      // remove the survey
+      const [result] = await conn.execute('DELETE FROM surveys WHERE id = ?', [id]);
+      if (result.affectedRows === 0) {
+        await conn.rollback();
+        conn.release();
+        return res.status(404).json({ error: 'not found' });
+      }
+      await conn.commit();
+      conn.release();
+      return res.status(204).send();
+    } catch (err) {
+      await conn.rollback();
+      conn.release();
+      throw err;
+    }
+  } catch (err) {
+    console.error('delete survey error', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
 
 // Questions endpoints
 // POST /survey/:id/question

@@ -1,4 +1,4 @@
 -- Active: 1767953916951@@127.0.0.1@3306@surveysdb
-IF NOT EXISTS CREATE DATABASE `surveysdb`
+CREATE DATABASE `surveysdb`
     DEFAULT CHARACTER SET utf8mb4
     DEFAULT COLLATE utf8mb4_0900_ai_ci;

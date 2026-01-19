@@ -99,6 +99,8 @@ router.put('/:id', requireAuth, requireCreatorOrAdminForSurvey, async (req, res)
     return res.status(500).json({ error: err.message });
   }
 });
+
+// Delete a survey by id
 // DELETE /survey/:id
 router.delete('/:id', requireAuth, requireCreatorOrAdminForSurvey, async (req, res) => {
   const { id } = req.params;
@@ -134,6 +136,7 @@ router.delete('/:id', requireAuth, requireCreatorOrAdminForSurvey, async (req, r
 });
 
 // Questions endpoints
+// create a new question for a survey.
 // POST /survey/:id/question
 router.post('/:id/question', async (req, res) => {
   const { id } = req.params;
@@ -152,6 +155,7 @@ router.post('/:id/question', async (req, res) => {
   }
 });
 
+// Update a question for a survey.
 // PUT /survey/:id/question/:qid
 router.put('/:id/question/:qid', async (req, res) => {
   const { id, qid } = req.params;
@@ -176,6 +180,7 @@ router.put('/:id/question/:qid', async (req, res) => {
   }
 });
 
+// get all questions for a survey.
 // GET /survey/:id/question
 router.get('/:id/question', async (req, res) => {
   const { id } = req.params;
@@ -188,6 +193,7 @@ router.get('/:id/question', async (req, res) => {
   }
 });
 
+// get a single question for a survey.
 // GET /survey/:id/question/:qid
 router.get('/:id/question/:qid', async (req, res) => {
   const { id, qid } = req.params;
@@ -202,6 +208,7 @@ router.get('/:id/question/:qid', async (req, res) => {
 });
 
 // Answers endpoints
+// create a new answer for a survey question.
 // POST /survey/:id/answer
 router.post('/:id/answer', async (req, res) => {
   const { id } = req.params;
@@ -221,6 +228,7 @@ router.post('/:id/answer', async (req, res) => {
   }
 });
 
+// Update an answer for a survey question.
 // PUT /survey/:id/answer/:aid
 router.put('/:id/answer/:aid', async (req, res) => {
   const { id, aid } = req.params;
@@ -249,6 +257,7 @@ router.put('/:id/answer/:aid', async (req, res) => {
   }
 });
 
+// get all answers for a survey.
 // GET /survey/:id/answer
 router.get('/:id/answer', async (req, res) => {
   const { id } = req.params;
@@ -264,6 +273,7 @@ router.get('/:id/answer', async (req, res) => {
   }
 });
 
+// get a single answer for a survey.
 // GET /survey/:id/answer/:aid
 router.get('/:id/answer/:aid', async (req, res) => {
   const { id, aid } = req.params;

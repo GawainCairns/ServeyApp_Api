@@ -68,7 +68,7 @@ router.put('/user/:id', async (req, res) => {
     const sql = `UPDATE users SET ${updates.join(', ')} WHERE id = ?`;
     const [result] = await pool.execute(sql, params);
     if (result.affectedRows === 0) return res.status(404).json({ error: 'not found' });
-    const [rows] = await pool.execute('SELECT * FROM users WHERE id = ?', [id]);
+    const [rows] = await pool.execute('SELECT id, name, email, role FROM users WHERE id = ?', [id]);
     res.json(rows[0]);
   } catch (err) {
     console.error('update user error', err);
@@ -80,7 +80,7 @@ router.put('/user/:id', async (req, res) => {
 router.get('/user/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const [rows] = await pool.execute('SELECT * FROM users WHERE id = ?', [id]);
+    const [rows] = await pool.execute('SELECT id, name, email, role FROM users WHERE id = ?', [id]);
     if (!rows.length) return res.status(404).json({ error: 'not found' });
     res.json(rows[0]);
   } catch (err) {
@@ -92,7 +92,7 @@ router.get('/user/:id', async (req, res) => {
 // GET /admin/users - get all users
 router.get('/users', async (req, res) => {
   try {
-    const [rows] = await pool.execute('SELECT * FROM users');
+    const [rows] = await pool.execute('SELECT id, name, email, role FROM users');
     res.json(rows);
   } catch (err) {
     console.error('get users error', err);

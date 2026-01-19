@@ -29,7 +29,7 @@ router.get('/:id/survey', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [rows] = await pool.execute('SELECT id, name FROM users WHERE id = ?', [id]);
+    const [rows] = await pool.execute('SELECT id, name, email FROM users WHERE id = ?', [id]);
     if (!rows.length) return res.status(404).json({ error: 'not found' });
     return res.json(rows[0]);
   } catch (err) {

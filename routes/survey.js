@@ -45,6 +45,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get a survey by s_code
+// GET /survey/code/:s_code
+router.get('/code/:s_code', async (req, res) => {
+  const { s_code } = req.params;
+  try {
+    const [rows] = await pool.execute('SELECT * FROM surveys WHERE s_code = ?', [s_code]);
+    if (!rows.length) return res.status(404).json({ error: 'not found' });
+    return res.json(rows[0]);
+  } catch (err) {
+    console.error('get survey by s_code error', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 // Get all surveys for a user
 // GET /user/:id/survey
 router.get('/user/:id/survey', async (req, res) => {
